@@ -4,15 +4,21 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.wolf.travelscout.data.model.LoginModel
 import com.wolf.travelscout.data.model.LoginResponse
+import com.wolf.travelscout.data.model.dashboard.DashboardRes
 import com.wolf.travelscout.network.ApiServices
 import io.reactivex.Observable
 
 class LoginViewModel(application: Application): AndroidViewModel(application) {
 
     private var travelAPI: ApiServices = ApiServices.getServices()
+    private var travelPrivateAPI: ApiServices = ApiServices.getPrivateServices()
 
     fun handleUserLogin(loginData: LoginModel.LoginData): Observable<LoginResponse>{
         return travelAPI.loginUser(loginData)
+    }
+
+    fun handlePrivatePage(): Observable<List<DashboardRes.DashboardData>>{
+        return travelPrivateAPI.privatePage()
     }
 
 

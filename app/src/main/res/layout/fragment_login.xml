@@ -46,6 +46,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+        <Button
+            android:id="@+id/btn_hello"
+            android:text="Hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 
 </FrameLayout>

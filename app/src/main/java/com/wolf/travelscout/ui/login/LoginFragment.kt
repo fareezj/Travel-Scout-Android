@@ -37,11 +37,30 @@ class LoginFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
+
         btn_login.setOnClickListener {
             username =   et_username_login.text.toString()
             password =   et_password_login.text.toString()
             handleUserLogin(username, password)
         }
+
+        btn_hello.setOnClickListener {
+            handlePrivatePage()
+        }
+
+
+    }
+
+    private fun handlePrivatePage(){
+        val subscribe = viewModel.handlePrivatePage()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                Log.i("HELLO", "SUCCESS ! ${it[0]}")
+            },{ err -> var msg = err.localizedMessage
+                Log.i("DATA", err.toString())
+            })
+        subscription.add(subscribe)
     }
 
     private fun handleUserLogin(username: String, password: String){
