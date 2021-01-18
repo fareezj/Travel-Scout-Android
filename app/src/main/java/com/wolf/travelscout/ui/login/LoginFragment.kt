@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.wolf.travelscout.R
 import com.wolf.travelscout.data.model.LoginModel
+import com.wolf.travelscout.util.SharedPreferencesUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -20,6 +21,7 @@ class LoginFragment : Fragment() {
     private var subscription = CompositeDisposable()
     private var username = ""
     private var password = ""
+    private var accessToken = ""
 
 
     override fun onCreateView(
@@ -52,7 +54,9 @@ class LoginFragment : Fragment() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                Log.i("LOGIN", "SUCCESS ! ${it.toString()}")
+                accessToken = it.token.toString()
+                Log.i("LOGIN", "SUCCESS ! $accessToken")
+                SharedPreferencesUtil.accessToken = accessToken
             },{ err -> var msg = err.localizedMessage
                 Log.i("DATA", err.toString())
             })

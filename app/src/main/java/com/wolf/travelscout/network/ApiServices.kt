@@ -1,10 +1,10 @@
 package com.wolf.travelscout.network
 
 import com.wolf.travelscout.data.model.LoginModel
+import com.wolf.travelscout.data.model.LoginResponse
 import com.wolf.travelscout.data.model.UserModel
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -18,7 +18,7 @@ interface ApiServices {
 
     @Headers("Content-Type: application/json")
     @POST("/authenticate")
-    fun loginUser(@Body loginData: LoginModel.LoginData): Observable<LoginModel.LoginData>
+    fun loginUser(@Body loginData: LoginModel.LoginData): Observable<LoginResponse>
 
 
     //@Field("username") username: String, @Field("password") password: String
