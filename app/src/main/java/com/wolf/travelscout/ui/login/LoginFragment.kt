@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.wolf.travelscout.R
 import com.wolf.travelscout.data.model.LoginModel
 import com.wolf.travelscout.util.SharedPreferencesUtil
@@ -18,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_login.*
 class LoginFragment : Fragment() {
 
     private lateinit var viewModel: LoginViewModel
+    private lateinit var navController: NavController
     private var subscription = CompositeDisposable()
     private var username = ""
     private var password = ""
@@ -36,32 +39,24 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        navController = Navigation.findNavController(view)
 
 
         btn_login.setOnClickListener {
             username =   et_username_login.text.toString()
             password =   et_password_login.text.toString()
+            SharedPreferencesUtil.username = username
             handleUserLogin(username, password)
         }
 
         btn_hello.setOnClickListener {
-            handlePrivatePage()
+            navController.navigate(R.id.action_loginFragment_to_dashboardFragment)
         }
 
 
     }
 
-    private fun handlePrivatePage(){
-        val subscribe = viewModel.handlePrivatePage()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                Log.i("HELLO", "SUCCESS ! ${it[0]}")
-            },{ err -> var msg = err.localizedMessage
-                Log.i("DATA", err.toString())
-            })
-        subscription.add(subscribe)
-    }
+
 
     private fun handleUserLogin(username: String, password: String){
         val subscribe = viewModel.handleUserLogin(
