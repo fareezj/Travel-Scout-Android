@@ -43,7 +43,7 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         app:boxBackgroundColor="@color/white"
-                        android:textColorHint="@color/design_default_color_primary"
+                        android:textColorHint="@color/colorPrimary"
                         android:id="@+id/tv_username_title"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tv_password"
                         app:boxBackgroundColor="@color/white"
-                        android:textColorHint="@color/design_default_color_primary"
+                        android:textColorHint="@color/colorPrimary"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:hint="Enter Your Password">
@@ -80,7 +80,7 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tv_firstName"
                         app:boxBackgroundColor="@color/white"
-                        android:textColorHint="@color/design_default_color_primary"
+                        android:textColorHint="@color/colorPrimary"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:hint="Enter Your First Name">
@@ -98,7 +98,7 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tv_lastName"
                         app:boxBackgroundColor="@color/white"
-                        android:textColorHint="@color/design_default_color_primary"
+                        android:textColorHint="@color/colorPrimary"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:hint="Enter Your Last Name">
@@ -116,7 +116,7 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tv_email"
                         app:boxBackgroundColor="@color/white"
-                        android:textColorHint="@color/design_default_color_primary"
+                        android:textColorHint="@color/colorPrimary"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:hint="Enter Your Email">
@@ -133,6 +133,7 @@
 
                     <Button
                         android:id="@+id/btn_register"
+                        android:textColor="@color/white"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -141,6 +142,7 @@
 
                     <Button
                         android:id="@+id/btn_login_next"
+                        android:textColor="@color/white"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

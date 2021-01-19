@@ -34,6 +34,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tv_username_title"
+                    android:textColorHint="@color/colorPrimary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="10dp"
@@ -51,6 +52,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tv_password"
+                    android:textColorHint="@color/colorPrimary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="10dp"
@@ -70,6 +72,7 @@
                     android:id="@+id/btn_login"
                     android:layout_gravity="center"
                     android:text="Login"
+                    android:textColor="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -77,6 +80,7 @@
                     android:id="@+id/btn_hello"
                     android:layout_gravity="center"
                     android:text="Hello"
+                    android:textColor="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
