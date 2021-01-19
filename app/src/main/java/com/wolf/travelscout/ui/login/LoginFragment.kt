@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.wolf.travelscout.R
 import com.wolf.travelscout.data.model.LoginModel
 import com.wolf.travelscout.util.SharedPreferencesUtil
@@ -52,9 +53,6 @@ class LoginFragment : Fragment() {
             handleUserLogin(username, password)
         }
 
-        btn_hello.setOnClickListener {
-            navController.navigate(R.id.action_loginFragment_to_dashboardFragment)
-        }
     }
 
     private fun setupComponent(){
@@ -109,11 +107,26 @@ class LoginFragment : Fragment() {
                 accessToken = it.token.toString()
                 Log.i("LOGIN", "SUCCESS ! $accessToken")
                 SharedPreferencesUtil.accessToken = accessToken
+                navController.navigate(R.id.action_loginFragment_to_dashboardFragment)
             },{ err -> var msg = err.localizedMessage
                 Log.i("DATA", err.toString())
+                invalidLoginDialog()
             })
         subscription.add(subscribe)
 
+    }
+
+    private fun invalidLoginDialog(){
+        MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Alert")
+                .setMessage("Invalid Inputs")
+                .setNeutralButton("") { dialog, which ->
+                    // Respond to neutral button press
+                }
+                .setPositiveButton("Okay") { dialog, which ->
+                    // Respond to positive button press
+                }
+                .show()
     }
 
 }
