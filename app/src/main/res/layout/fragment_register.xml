@@ -49,7 +49,7 @@
                         app:startIconTint="@color/colorPrimary"
                         app:startIconDrawable="@drawable/ic_baseline_add_reaction_24"
                         android:layout_height="wrap_content"
-                        android:hint="Enter Your Name">
+                        android:hint="Enter Your Username">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/et_new_username"
@@ -89,7 +89,7 @@
                         app:startIconDrawable="@drawable/ic_baseline_accessibility_new_24"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
-                        android:hint="Enter Your First Name">
+                        android:hint="Enter Your Name">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/et_firstName"
