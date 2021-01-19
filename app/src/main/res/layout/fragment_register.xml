@@ -46,6 +46,8 @@
                         android:textColorHint="@color/colorPrimary"
                         android:id="@+id/tv_username_title"
                         android:layout_width="300dp"
+                        app:startIconTint="@color/colorPrimary"
+                        app:startIconDrawable="@drawable/ic_baseline_add_reaction_24"
                         android:layout_height="wrap_content"
                         android:hint="Enter Your Name">
 
@@ -63,6 +65,8 @@
                         android:id="@+id/tv_password"
                         app:boxBackgroundColor="@color/white"
                         android:textColorHint="@color/colorPrimary"
+                        app:startIconTint="@color/colorPrimary"
+                        app:startIconDrawable="@drawable/ic_baseline_security_24"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:hint="Enter Your Password">
@@ -81,6 +85,8 @@
                         android:id="@+id/tv_firstName"
                         app:boxBackgroundColor="@color/white"
                         android:textColorHint="@color/colorPrimary"
+                        app:startIconTint="@color/colorPrimary"
+                        app:startIconDrawable="@drawable/ic_baseline_accessibility_new_24"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:hint="Enter Your First Name">
@@ -97,11 +103,13 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tv_lastName"
+                        app:startIconTint="@color/colorPrimary"
+                        app:startIconDrawable="@drawable/ic_baseline_phone_24"
                         app:boxBackgroundColor="@color/white"
                         android:textColorHint="@color/colorPrimary"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
-                        android:hint="Enter Your Last Name">
+                        android:hint="Enter Your Phone No.">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/et_lastName"
@@ -115,6 +123,8 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tv_email"
+                        app:startIconTint="@color/colorPrimary"
+                        app:startIconDrawable="@drawable/ic_baseline_email_24"
                         app:boxBackgroundColor="@color/white"
                         android:textColorHint="@color/colorPrimary"
                         android:layout_width="300dp"
