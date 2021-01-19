@@ -1,6 +1,8 @@
 package com.wolf.travelscout.ui.login
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -40,6 +42,7 @@ class LoginFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         navController = Navigation.findNavController(view)
+        setupComponent()
 
 
         btn_login.setOnClickListener {
@@ -52,11 +55,46 @@ class LoginFragment : Fragment() {
         btn_hello.setOnClickListener {
             navController.navigate(R.id.action_loginFragment_to_dashboardFragment)
         }
+    }
 
+    private fun setupComponent(){
+        btn_login.isEnabled = false
+
+        et_username_login.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {validateEditTextLength()}
+        })
+
+        et_username_login.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {validateEditTextLength()}
+        })
+
+        et_username_login.setOnFocusChangeListener { v, hasFocus ->
+            if(!hasFocus){
+                if(et_username_login.text.isNullOrEmpty()){
+                    et_username_login.error = "Please enter username"
+                }
+            }
+        }
+
+        et_password_login.setOnFocusChangeListener { v, hasFocus ->
+            if(!hasFocus){
+                if(et_password_login.text.isNullOrEmpty()){
+                    et_password_login.error = "Please enter password"
+                }
+            }
+        }
 
     }
 
-
+    private fun validateEditTextLength(){
+        btn_login.isEnabled =
+                        et_username_login.text!!.isNotEmpty() &&
+                        et_password_login.text!!.isNotEmpty()
+    }
 
     private fun handleUserLogin(username: String, password: String){
         val subscribe = viewModel.handleUserLogin(
