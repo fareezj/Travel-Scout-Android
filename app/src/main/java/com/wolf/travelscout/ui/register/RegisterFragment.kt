@@ -1,6 +1,8 @@
 package com.wolf.travelscout.ui.register
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -24,7 +26,7 @@ class RegisterFragment : Fragment() {
     private var username = ""
     private var password = ""
     private var firstName = ""
-    private var lastName = ""
+    private var phone = ""
     private var email = ""
 
 
@@ -41,24 +43,59 @@ class RegisterFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
         navController = Navigation.findNavController(view)
-
-
+        setupComponent()
 
         btn_register.setOnClickListener {
 
             username = et_new_username.text.toString()
             password = et_password.text.toString()
             firstName = et_firstName.text.toString()
-            lastName = et_lastName.text.toString()
+            phone = et_phone.text.toString()
             email = et_email.text.toString()
 
-            registerNewUser(username, password, firstName, lastName, email)
+            registerNewUser(username, password, firstName, phone, email)
         }
 
         btn_login_next.setOnClickListener {
             navController.navigate(R.id.action_registerFragment_to_loginFragment)
         }
         
+    }
+
+    private fun setupComponent(){
+        btn_register.isEnabled = false
+
+        et_new_username.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) { validateEditTextLength() }
+        })
+        et_password.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) { validateEditTextLength() }
+        })
+        et_phone.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) { validateEditTextLength() }
+        })
+        et_email.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) { validateEditTextLength() }
+        })
+
+
+    }
+
+    private fun validateEditTextLength(){
+        btn_register.isEnabled =
+                        et_new_username.text!!.isNotEmpty() &&
+                        et_password.text!!.isNotEmpty() &&
+                        et_firstName.text!!.isNotEmpty() &&
+                        et_phone.text!!.isNotEmpty() &&
+                        et_email.text!!.isNotEmpty()
     }
 
 
