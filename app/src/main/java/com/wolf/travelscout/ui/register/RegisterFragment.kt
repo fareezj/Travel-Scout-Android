@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.wolf.travelscout.R
+import com.wolf.travelscout.util.RegexUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -85,8 +86,13 @@ class RegisterFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) { validateEditTextLength() }
         })
-
-
+        et_email.setOnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+                if (!RegexUtil.validateEmailAddress(et_email.text.toString().trim())) {
+                    et_email.error = "Email Invalid"
+                }
+            }
+        }
     }
 
     private fun validateEditTextLength(){
@@ -95,7 +101,8 @@ class RegisterFragment : Fragment() {
                         et_password.text!!.isNotEmpty() &&
                         et_firstName.text!!.isNotEmpty() &&
                         et_phone.text!!.isNotEmpty() &&
-                        et_email.text!!.isNotEmpty()
+                        et_email.text!!.isNotEmpty() &&
+                                RegexUtil.validateEmailAddress(et_email.text.toString().trim())
     }
 
 
