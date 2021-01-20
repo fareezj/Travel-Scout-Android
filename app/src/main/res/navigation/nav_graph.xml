@@ -3,11 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/registerFragment">
+    app:startDestination="@id/dashboardFragment">
 
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.wolf.travelscout.ui.register.RegisterFragment"
+        tools:layout="@layout/fragment_register"
         android:label="RegisterFragment" >
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
