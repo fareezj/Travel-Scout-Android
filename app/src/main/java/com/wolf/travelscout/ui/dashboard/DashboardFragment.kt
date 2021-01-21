@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.wolf.travelscout.R
 import com.wolf.travelscout.databinding.FragmentDashboardBinding
 import com.wolf.travelscout.util.SharedPreferencesUtil
@@ -19,6 +21,7 @@ class DashboardFragment : Fragment() {
 
     private lateinit var binding: FragmentDashboardBinding
     private lateinit var viewModel: DashboardViewModel
+    private lateinit var navController: NavController
     private var subscription = CompositeDisposable()
 
 
@@ -35,10 +38,14 @@ class DashboardFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+        navController = Navigation.findNavController(view)
 
         tv_username.text = SharedPreferencesUtil.username
-
         handlePrivatePage()
+
+        ib_add_trip.setOnClickListener {
+            navController.navigate(R.id.action_dashboardFragment_to_addTripFragment)
+        }
 
     }
 
