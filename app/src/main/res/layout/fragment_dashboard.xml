@@ -63,6 +63,47 @@
             app:shapeAppearanceOverlay="@style/circleImageView"
             app:srcCompat="@drawable/beach" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+            app:layout_constraintVertical_bias="0.037"
+            tools:layout_editor_absoluteX="16dp">
+
+            <ImageButton
+                android:id="@+id/ib_add_trip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_add_24" />
+
+            <ImageButton
+                android:id="@+id/ib_friend_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_add_reaction_24" />
+
+            <ImageButton
+                android:id="@+id/ib_item_checklist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_format_list_numbered_24" />
+
+            <ImageButton
+                android:id="@+id/ib_upcoming_trips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_airplanemode_active_24" />
+
+            <ImageButton
+                android:id="@+id/ib_trip_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_history_24" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
