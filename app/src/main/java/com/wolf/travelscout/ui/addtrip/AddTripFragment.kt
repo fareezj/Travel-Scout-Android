@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.RadioButton
 import com.wolf.travelscout.R
 import kotlinx.android.synthetic.main.fragment_add_trip.*
 
@@ -44,7 +45,13 @@ class AddTripFragment : Fragment() {
             Log.i("Position", a.toString())
         }
 
-        // Set Date Picker
+        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+
+            when(checkedId){
+                R.id.rb_solo -> ll_search_friends.visibility = View.GONE
+                R.id.rb_friends -> ll_search_friends.visibility = View.VISIBLE
+            }
+        }
 
     }
 
