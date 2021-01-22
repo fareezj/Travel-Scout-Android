@@ -21,6 +21,15 @@ class AddTripFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupComponent()
+
+    }
+
+    private fun setupComponent(){
+
+
+        // Country Spinner
+
         val name = arrayOf(
                 "Malaysia",
                 "Singapore"
@@ -34,6 +43,8 @@ class AddTripFragment : Fragment() {
             val a = filled_exposed_dropdown.text
             Log.i("Position", a.toString())
         }
+
+        // Set Date Picker
 
     }
 
