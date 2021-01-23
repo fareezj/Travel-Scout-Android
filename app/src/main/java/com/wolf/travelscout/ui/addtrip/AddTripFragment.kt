@@ -23,6 +23,7 @@ class AddTripFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupComponent()
+        setupAdapter()
 
     }
 
@@ -30,7 +31,6 @@ class AddTripFragment : Fragment() {
 
 
         // Country Spinner
-
         val name = arrayOf(
                 "Malaysia",
                 "Singapore"
@@ -52,6 +52,10 @@ class AddTripFragment : Fragment() {
                 R.id.rb_friends -> ll_search_friends.visibility = View.VISIBLE
             }
         }
+
+    }
+
+    private fun setupAdapter() {
 
     }
 

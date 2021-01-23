@@ -210,6 +210,7 @@
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:orientation="horizontal"
+                tools:listitem="@layout/search_friend_result_item"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
