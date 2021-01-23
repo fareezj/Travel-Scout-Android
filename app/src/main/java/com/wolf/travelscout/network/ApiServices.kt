@@ -12,10 +12,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.http.*
 
 
 interface ApiServices {
@@ -29,6 +26,9 @@ interface ApiServices {
 
     @GET("/hello")
     fun privatePage(): Observable<List<DashboardRes.DashboardData>>
+
+    @GET("/searchfriend/{username}")
+    fun searchFriend(@Path("username") username: String): Observable<List<UserModel.User>>
 
     companion object {
         val logger = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)

@@ -9,7 +9,7 @@ import com.wolf.travelscout.R
 import com.wolf.travelscout.data.model.UserModel
 import kotlinx.android.synthetic.main.search_friend_result_item.view.*
 
-class SearchFriendResultAdapter (context: Context, var items: ArrayList<UserModel.User>):
+class SearchFriendResultAdapter (context: Context?, var items: ArrayList<UserModel.User>):
     RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
