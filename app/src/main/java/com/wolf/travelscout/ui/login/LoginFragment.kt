@@ -1,13 +1,16 @@
 package com.wolf.travelscout.ui.login
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Base64
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -19,6 +22,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_login.*
+import java.io.ByteArrayOutputStream
+
 
 class LoginFragment : Fragment() {
 
@@ -31,8 +36,8 @@ class LoginFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false)
@@ -61,13 +66,17 @@ class LoginFragment : Fragment() {
         et_username_login.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {validateEditTextLength()}
+            override fun afterTextChanged(s: Editable?) {
+                validateEditTextLength()
+            }
         })
 
         et_password_login.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {validateEditTextLength()}
+            override fun afterTextChanged(s: Editable?) {
+                validateEditTextLength()
+            }
         })
 
         et_username_login.setOnFocusChangeListener { v, hasFocus ->
@@ -96,10 +105,10 @@ class LoginFragment : Fragment() {
 
     private fun handleUserLogin(username: String, password: String){
         val subscribe = viewModel.handleUserLogin(
-            LoginModel.LoginData(
-                username = username,
-                password = password
-            )
+                LoginModel.LoginData(
+                        username = username,
+                        password = password
+                )
         )
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -108,7 +117,8 @@ class LoginFragment : Fragment() {
                 Log.i("LOGIN", "SUCCESS ! $accessToken")
                 SharedPreferencesUtil.accessToken = accessToken
                 navController.navigate(R.id.action_loginFragment_to_dashboardFragment)
-            },{ err -> var msg = err.localizedMessage
+            }, { err ->
+                var msg = err.localizedMessage
                 Log.i("DATA", err.toString())
                 invalidLoginDialog()
             })

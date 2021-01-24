@@ -76,7 +76,7 @@ class AddTripFragment : Fragment() {
 
     private fun setupAdapter(friendList: ArrayList<UserModel.User>) {
 
-        rv_search_friend_results.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        rv_search_friend_results.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rv_search_friend_results.setHasFixedSize(true)
         adapter = SearchFriendResultAdapter(context, friendList)
         rv_search_friend_results.adapter = adapter
@@ -89,7 +89,7 @@ class AddTripFragment : Fragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
 
-                    Log.i("Results:", it[0].username)
+                    Log.i("Results:", it.size.toString())
                     friendList.clear()
                     friendList.addAll(it)
                     setupAdapter(friendList)

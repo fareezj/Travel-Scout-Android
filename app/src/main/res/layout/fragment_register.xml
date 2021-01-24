@@ -141,6 +141,19 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <ImageView
+                        android:id="@+id/iv_chosen_profile_image"
+                        android:layout_gravity="center"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"/>
+
+                    <Button
+                        android:id="@+id/btn_pick_profile_image"
+                        android:text="Pick Image"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
                     <Button
                         android:id="@+id/btn_register"
                         android:textColor="@color/white"

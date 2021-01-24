@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import com.wolf.travelscout.data.model.UserModel
 import com.wolf.travelscout.network.ApiServices
 import io.reactivex.Observable
+import java.sql.Blob
 
 class RegisterViewModel(application: Application): AndroidViewModel(application) {
 
@@ -14,16 +15,18 @@ class RegisterViewModel(application: Application): AndroidViewModel(application)
         username: String,
         password: String,
         firstName: String,
-        lastName: String,
-        email: String): Observable<UserModel.User>
+        phone: String,
+        email: String,
+        profileImage: String): Observable<UserModel.User>
     {
         return travelAPI.registerUser(
             UserModel.User(
                 username = username,
                 password = password,
                 firstName = firstName,
-                lastName = lastName,
-                email = email
+                phone = phone,
+                email = email,
+                    profileImage = profileImage
             )
         )
     }

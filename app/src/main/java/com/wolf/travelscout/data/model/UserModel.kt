@@ -18,11 +18,14 @@ class UserModel {
         @SerializedName("firstName")
         var firstName: String = "",
 
-        @SerializedName("lastName")
-        var lastName: String = "",
+        @SerializedName("phone")
+        var phone: String = "",
 
         @SerializedName("email")
-        var email: String = ""
+        var email: String = "",
+
+        @SerializedName("profileImage")
+        var profileImage: String = ""
     )
 
 }
