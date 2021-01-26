@@ -17,6 +17,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_add_trip.*
+import timber.log.Timber
 
 class AddTripFragment : Fragment() {
 
@@ -25,6 +26,7 @@ class AddTripFragment : Fragment() {
     private lateinit var adapter: SearchFriendResultAdapter
     private var friendList: ArrayList<UserModel.User> = arrayListOf()
     private var searchName: String = ""
+    private var selectedTripFriend: ArrayList<UserModel.User> = arrayListOf()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -80,7 +82,12 @@ class AddTripFragment : Fragment() {
         rv_search_friend_results.setHasFixedSize(true)
         adapter = SearchFriendResultAdapter(requireContext(), friendList)
         rv_search_friend_results.adapter = adapter
-        adapter.notifyDataSetChanged()
+
+        selectedTripFriend.clear()
+        adapter.onItemClick = {
+            selectedTripFriend.add(it)
+            Log.i("SELECTED", selectedTripFriend.toString())
+        }
     }
 
     private fun handleSearchFriend(username: String){
