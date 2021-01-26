@@ -14,6 +14,7 @@ class SearchFriendResultAdapter (val context: Context, var items: ArrayList<User
     RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     var onItemClick: ((UserModel.User) -> Unit)? = null
+    var onItemPostion: ((Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return SearchFriendViewHolder(
@@ -34,9 +35,10 @@ class SearchFriendResultAdapter (val context: Context, var items: ArrayList<User
 
             holder.itemView.setOnClickListener {
                 onItemClick?.invoke(items[position])
-                items.removeAt(position)
-                notifyDataSetChanged()
+//                items.removeAt(position)
+//                notifyDataSetChanged()
             }
+
         }
     }
 

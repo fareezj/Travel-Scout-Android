@@ -83,10 +83,17 @@ class AddTripFragment : Fragment() {
         adapter = SearchFriendResultAdapter(requireContext(), friendList)
         rv_search_friend_results.adapter = adapter
 
-        selectedTripFriend.clear()
         adapter.onItemClick = {
-            selectedTripFriend.add(it)
-            Log.i("SELECTED", selectedTripFriend.toString())
+
+            if(!selectedTripFriend.contains(it)){
+                selectedTripFriend.add(it)
+                val a = friendList.filter { user -> (user.username != it.username) }
+                friendList.clear()
+                friendList.addAll(a)
+                adapter.notifyDataSetChanged()
+            }else{
+                Log.i("INVALID", "FRIEND ALREADY ADDED !")
+            }
         }
     }
 
