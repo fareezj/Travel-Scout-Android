@@ -44,6 +44,14 @@ object SharedPreferencesUtil {
             preferences.edit().putString(SharedPreferenceKeys.ACCESS_TOKEN.value, accessToken).apply()
         }
 
+    var profileImageURL: String?
+        get() {
+            return preferences.getString(SharedPreferenceKeys.PROFILE_IMAGE_URL.value, "")
+        }
+        set(imageURL) {
+            preferences.edit().putString(SharedPreferenceKeys.PROFILE_IMAGE_URL.value, imageURL).apply()
+        }
+
 }
 
 
@@ -51,5 +59,6 @@ private enum class SharedPreferenceKeys(val value: String){
     SHARED_PREFS_FILE("travelScout"),
     IS_FIRST_TIME("isFirstTime"),
     CURRENT_USERNAME("username"),
-    ACCESS_TOKEN("accessToken")
+    ACCESS_TOKEN("accessToken"),
+    PROFILE_IMAGE_URL("profileImageURL")
 }

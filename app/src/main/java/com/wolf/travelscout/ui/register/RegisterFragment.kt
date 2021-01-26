@@ -1,12 +1,20 @@
 package com.wolf.travelscout.ui.register
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Application
+import android.content.ContentUris
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.DocumentsContract
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Base64
@@ -19,18 +27,24 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.wolf.travelscout.R
+import com.wolf.travelscout.aws.AWSUtils
+import com.wolf.travelscout.aws.AwsConstants
 import com.wolf.travelscout.util.RegexUtil
+import com.wolf.travelscout.util.SharedPreferencesUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_register.*
+import pub.devrel.easypermissions.EasyPermissions
+import pub.devrel.easypermissions.PermissionRequest
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
+import java.net.URISyntaxException
 import java.nio.charset.StandardCharsets.ISO_8859_1
 import java.nio.charset.StandardCharsets.UTF_8
 
-
-class RegisterFragment : Fragment() {
+class RegisterFragment : Fragment(), AWSUtils.OnAwsImageUploadListener, EasyPermissions.PermissionCallbacks,
+        EasyPermissions.RationaleCallbacks {
 
     private lateinit var viewModel: RegisterViewModel
     private lateinit var navController: NavController
@@ -66,6 +80,7 @@ class RegisterFragment : Fragment() {
             firstName = et_firstName.text.toString()
             phone = et_phone.text.toString()
             email = et_email.text.toString()
+            profileImage64 = SharedPreferencesUtil.profileImageURL
 
             registerNewUser(username, password, firstName, phone, email, profileImage64!!)
         }
@@ -75,67 +90,144 @@ class RegisterFragment : Fragment() {
         }
 
         btn_pick_profile_image.setOnClickListener {
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                pickImageFromGallery()
+            //Handle runtime permission
+            if (hasExternalStorageWritePermission()) {
+
+                //Open gallery to pick image
+                openGallery()
+
+            } else {
+                EasyPermissions.requestPermissions(
+                        PermissionRequest.Builder(this, 1000, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                .setRationale("requires storage permission")
+                                .setPositiveButtonText("Grant")
+                                .setNegativeButtonText("Cancel")
+                                .build()
+                )
             }
         }
     }
 
-    private fun pickImageFromGallery() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, IMAGE_PICK_CODE)
+    override fun showProgressDialog() {
+
     }
 
-    companion object {
-        //image pick code
-        private val IMAGE_PICK_CODE = 1000;
+    override fun hideProgressDialog() {
 
-        //Permission code
-        private val PERMISSION_CODE = 1001;
+    }
+
+    override fun onSuccess(imgUrl: String) {
+        println("Uploaded File Path URL: " + imgUrl)
+    }
+
+    override fun onError(errorMsg: String) {
+        println("Uploaded File Path URL Error: " + errorMsg)
+    }
+
+    private fun openGallery() {
+        val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        startActivityForResult(gallery, 100)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-       if(resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE){
-           //iv_chosen_profile_image.setImageURI(data?.data)
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == 100) {
+            val imageUri = data?.data
+            val path: String? = getPath(imageUri!!)
+            iv_chosen_profile_image.setImageURI(imageUri)
 
-
-           val imageUri: Uri? = data?.data
-           val imageStream: InputStream? = context?.contentResolver?.openInputStream(imageUri!!)
-           val selectedImage = BitmapFactory.decodeStream(imageStream)
-           //profileImage64 = encodeImage(selectedImage)
-           val encodeResult = encodeImage(selectedImage)
-
-           val decodedByte = Base64.decode(encodeResult, 0)
-//           Log.i("BYTE[]", decodedByte.toString())
-           //profileImage64 = encodeResult
-           //val imgBitMap = BitmapFactory.decodeByteArray(decRes, 0, decRes.size)
-
-           //val bitmap = BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.size)
-           //iv_chosen_profile_image.setImageBitmap(imgBitMap)
-
-       }
+            AWSUtils(requireContext(), path!!, this, AwsConstants.folderPath).beginUpload()
+        }
     }
 
-    private fun encodeImage(bm: Bitmap): String? {
-        val baos = ByteArrayOutputStream()
-        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-        val b: ByteArray = baos.toByteArray()
-        return Base64.encodeToString(b, Base64.DEFAULT)
+    @SuppressLint("NewApi")
+    @Throws(URISyntaxException::class)
+    protected fun getPath(uri: Uri): String? {
+        var uri = uri
+        var selection: String? = null
+        var selectionArgs: Array<String>? = null
 
-        // WRITE BASE64 TO EXTERNAL FILE
-//        val path = context?.getExternalFilesDir(null)
-//        val letDirectory = File(path, "LET")
-//        letDirectory.mkdirs()
-//        val file = File(letDirectory, "Records.txt")
-//        file.appendText(encoded)
-//
-//        val decodedString: ByteArray = Base64.decode(encoded, Base64.DEFAULT)
-//        val imgBitMap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
-//
-//        iv_chosen_profile_image.setImageBitmap(imgBitMap)
+        if (DocumentsContract.isDocumentUri(requireContext(), uri)) {
+            if (isExternalStorageDocument(uri)) {
+                val docId = DocumentsContract.getDocumentId(uri)
+                val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
+            } else if (isDownloadsDocument(uri)) {
+                try {
+                    val id = DocumentsContract.getDocumentId(uri)
+                    uri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id)!!)
+                } catch (e: NumberFormatException) {
+                    return null
+                }
+            } else if (isMediaDocument(uri)) {
+                val docId = DocumentsContract.getDocumentId(uri)
+                val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                val type = split[0]
+                if ("image" == type) {
+                    uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                } else if ("video" == type) {
+                    uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                } else if ("audio" == type) {
+                    uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                }
+                selection = "_id=?"
+                selectionArgs = arrayOf(split[1])
+            }
+        }
+        if ("content".equals(uri.scheme, ignoreCase = true)) {
+            val projection = arrayOf(MediaStore.Images.Media.DATA)
+            var cursor: Cursor? = null
+            try {
+                cursor = requireContext().contentResolver.query(uri, projection, selection, selectionArgs, null)
+                val column_index = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                if (cursor.moveToFirst()) {
+                    return cursor.getString(column_index)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+        } else if ("file".equals(uri.scheme, ignoreCase = true)) {
+            return uri.path
+        }
+        return null
+    }
+
+    private fun isExternalStorageDocument(uri: Uri): Boolean {
+        return "com.android.externalstorage.documents" == uri.authority
+    }
+
+    private fun isDownloadsDocument(uri: Uri): Boolean {
+        return "com.android.providers.downloads.documents" == uri.authority
+    }
+
+    private fun isMediaDocument(uri: Uri): Boolean {
+        return "com.android.providers.media.documents" == uri.authority
+    }
+
+    private fun hasExternalStorageWritePermission(): Boolean {
+        return EasyPermissions.hasPermissions(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
 
     }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+        //Open gallery to pick image
+        openGallery()
+    }
+
+    override fun onRationaleDenied(requestCode: Int) {
+
+    }
+
+    override fun onRationaleAccepted(requestCode: Int) {
+
+    }
+
+
+
 
     private fun setupComponent(){
         btn_register.isEnabled = false
@@ -179,12 +271,12 @@ class RegisterFragment : Fragment() {
 
     private fun validateEditTextLength(){
         btn_register.isEnabled =
-                        et_new_username.text!!.isNotEmpty() &&
+                et_new_username.text!!.isNotEmpty() &&
                         et_password.text!!.isNotEmpty() &&
                         et_firstName.text!!.isNotEmpty() &&
                         et_phone.text!!.isNotEmpty() &&
                         et_email.text!!.isNotEmpty() &&
-                                RegexUtil.validateEmailAddress(et_email.text.toString().trim())
+                        RegexUtil.validateEmailAddress(et_email.text.toString().trim())
     }
 
 
@@ -204,15 +296,16 @@ class RegisterFragment : Fragment() {
                 email = email,
                 profileImage = profileImage
         )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                Log.i("REGISTER", "SUCCESS !")
-            }, { err ->
-                var msg = err.localizedMessage
-                Log.i("DATA", msg.toString())
-            })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    Log.i("REGISTER", "SUCCESS !")
+                }, { err ->
+                    var msg = err.localizedMessage
+                    Log.i("DATA", msg.toString())
+                })
         subscription.add(subscribe)
     }
+
 
 }
