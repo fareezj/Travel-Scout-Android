@@ -27,6 +27,12 @@
         <item name="cornerSize">50dp</item>
     </style>
 
+    <!--Material Circle Profile Image Search style-->
+    <style name="circleImageViewProfileSearch" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
     <!-- style for material spinner 'item' layout -->
     <style name="MaterialSpinnerItem" parent="Widget.AppCompat.TextView">
         <item name="android:color">@color/colorPrimary</item>

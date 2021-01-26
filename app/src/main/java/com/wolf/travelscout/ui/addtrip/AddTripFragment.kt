@@ -78,7 +78,7 @@ class AddTripFragment : Fragment() {
 
         rv_search_friend_results.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rv_search_friend_results.setHasFixedSize(true)
-        adapter = SearchFriendResultAdapter(context, friendList)
+        adapter = SearchFriendResultAdapter(requireContext(), friendList)
         rv_search_friend_results.adapter = adapter
         adapter.notifyDataSetChanged()
     }
