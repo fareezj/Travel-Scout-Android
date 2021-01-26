@@ -5,22 +5,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.wolf.travelscout.R
 import com.wolf.travelscout.data.model.UserModel
+import kotlinx.android.synthetic.main.added_friend_item.view.*
 import kotlinx.android.synthetic.main.search_friend_result_item.view.*
 
-class FriendAddedAdapter (context: Context, var items: ArrayList<UserModel.User>):
+class FriendAddedAdapter (val context: Context, var items: ArrayList<UserModel.User>):
     RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+
+    var onItemClick: ((UserModel.User) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return FriendAddedViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.search_friend_result_item, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.added_friend_item, parent, false)
         )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is FriendAddedViewHolder){
-            holder.itemView.tv_search_friend_name.text = items[position].username
+            holder.itemView.tv_added_friend_name.text = items[position].username
+
+            Glide.with(context)
+                .load(items[position].profileImage)
+                .placeholder(R.drawable.ic_baseline_add_reaction_24)
+                .into(holder.itemView.iv_profile_image_added)
+
+            holder.itemView.setOnClickListener {
+                onItemClick?.invoke(items[position])
+            }
         }
     }
 

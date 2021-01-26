@@ -24,6 +24,7 @@ class AddTripFragment : Fragment() {
     private var subscription = CompositeDisposable()
     private lateinit var viewModel: AddTripViewModel
     private lateinit var adapter: SearchFriendResultAdapter
+    private lateinit var addedFriendAdapter: FriendAddedAdapter
     private var friendList: ArrayList<UserModel.User> = arrayListOf()
     private var searchName: String = ""
     private var selectedTripFriend: ArrayList<UserModel.User> = arrayListOf()
@@ -91,10 +92,26 @@ class AddTripFragment : Fragment() {
                 friendList.clear()
                 friendList.addAll(a)
                 adapter.notifyDataSetChanged()
+                setupFriendAddedAdapter(selectedTripFriend)
+
             }else{
                 Log.i("INVALID", "FRIEND ALREADY ADDED !")
             }
         }
+    }
+
+    private fun setupFriendAddedAdapter(friendList: ArrayList<UserModel.User>){
+
+        rv_search_friend_added.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        rv_search_friend_added.setHasFixedSize(true)
+        addedFriendAdapter = FriendAddedAdapter(requireContext(), friendList)
+        rv_search_friend_added.adapter = addedFriendAdapter
+
+        addedFriendAdapter.onItemClick = {
+            friendList.remove(it)
+            addedFriendAdapter.notifyDataSetChanged()
+        }
+
     }
 
     private fun handleSearchFriend(username: String){
