@@ -28,6 +28,14 @@ object SharedPreferencesUtil {
             preferences.edit().putBoolean(SharedPreferenceKeys.IS_FIRST_TIME.value, state).apply()
         }
 
+    var userID: Int?
+        get() {
+            return preferences.getInt(SharedPreferenceKeys.USER_ID.value, 0)
+        }
+        set(userId) {
+            preferences.edit().putInt(SharedPreferenceKeys.USER_ID.value, userId!!).apply()
+        }
+
     var username: String?
         get() {
             return preferences.getString(SharedPreferenceKeys.CURRENT_USERNAME.value, "")
@@ -57,6 +65,7 @@ object SharedPreferencesUtil {
 
 private enum class SharedPreferenceKeys(val value: String){
     SHARED_PREFS_FILE("travelScout"),
+    USER_ID("userId"),
     IS_FIRST_TIME("isFirstTime"),
     CURRENT_USERNAME("username"),
     ACCESS_TOKEN("accessToken"),

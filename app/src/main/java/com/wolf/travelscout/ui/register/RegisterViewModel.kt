@@ -17,7 +17,8 @@ class RegisterViewModel(application: Application): AndroidViewModel(application)
         firstName: String,
         phone: String,
         email: String,
-        profileImage: String): Observable<UserModel.User>
+        profileImage: String,
+        upcomingTrip: String): Observable<UserModel.User>
     {
         return travelAPI.registerUser(
             UserModel.User(
@@ -26,7 +27,8 @@ class RegisterViewModel(application: Application): AndroidViewModel(application)
                 firstName = firstName,
                 phone = phone,
                 email = email,
-                    profileImage = profileImage
+                    profileImage = profileImage,
+                    upcomingTrip = upcomingTrip
             )
         )
     }

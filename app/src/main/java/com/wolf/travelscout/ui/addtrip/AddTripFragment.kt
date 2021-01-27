@@ -42,6 +42,7 @@ class AddTripFragment : Fragment() {
     private var tripName: String = ""
     private var tripDate: String = ""
     private var tripType: String = ""
+    private var hostID: Int = 0
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

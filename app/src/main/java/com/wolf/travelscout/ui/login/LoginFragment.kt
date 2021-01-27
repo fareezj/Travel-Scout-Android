@@ -34,7 +34,6 @@ class LoginFragment : Fragment() {
     private var password = ""
     private var accessToken = ""
 
-
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?

@@ -56,6 +56,7 @@ class RegisterFragment : Fragment(), AWSUtils.OnAwsImageUploadListener, EasyPerm
     private var phone = ""
     private var email = ""
     private var profileImage64: String? = ""
+    private var upcomingTrip = ""
 
 
     override fun onCreateView(
@@ -82,7 +83,7 @@ class RegisterFragment : Fragment(), AWSUtils.OnAwsImageUploadListener, EasyPerm
             email = et_email.text.toString()
             profileImage64 = SharedPreferencesUtil.profileImageURL
 
-            registerNewUser(username, password, firstName, phone, email, profileImage64!!)
+            registerNewUser(username, password, firstName, phone, email, profileImage64!!, upcomingTrip)
         }
 
         btn_login_next.setOnClickListener {
@@ -286,7 +287,8 @@ class RegisterFragment : Fragment(), AWSUtils.OnAwsImageUploadListener, EasyPerm
             firstName: String,
             phone: String,
             email: String,
-            profileImage: String){
+            profileImage: String,
+            upcomingTrip: String){
 
         val subscribe = viewModel.handleRegisterNewUser(
                 username = username,
@@ -294,7 +296,8 @@ class RegisterFragment : Fragment(), AWSUtils.OnAwsImageUploadListener, EasyPerm
                 firstName = firstName,
                 phone = phone,
                 email = email,
-                profileImage = profileImage
+                profileImage = profileImage,
+                upcomingTrip = upcomingTrip
         )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

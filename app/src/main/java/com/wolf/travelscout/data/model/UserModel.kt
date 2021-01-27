@@ -8,7 +8,7 @@ class UserModel {
     @Serializable
     data class User(
 
-        @SerializedName("user_id")
+        @SerializedName("id")
         var userID: Int = 0,
 
         @SerializedName("username")
@@ -27,7 +27,10 @@ class UserModel {
         var email: String = "",
 
         @SerializedName("profileImage")
-        var profileImage: String = ""
+        var profileImage: String = "",
+
+        @SerializedName("upcomingTrip")
+        var upcomingTrip: String = ""
     )
 
 }

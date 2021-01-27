@@ -31,6 +31,9 @@ interface ApiServices {
     @GET("/searchfriend/{username}")
     fun searchFriend(@Path("username") username: String): Observable<List<UserModel.User>>
 
+    @GET("/getCurrentUser/{username}")
+    fun getUser(@Path("username") username: String): Observable<UserModel.User>
+
     @PUT("/addTrip")
     fun addTrip(@Body tripData: TripModel.Trip): Observable<TripModel.Trip>
 
