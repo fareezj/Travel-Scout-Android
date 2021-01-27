@@ -14,6 +14,9 @@ class TripModel {
             @SerializedName("tripDate")
             var tripDate: String = "",
 
+            @SerializedName("tripType")
+            var tripType: String = "",
+
             @SerializedName("friendList")
             var friendList: String = "",
     )

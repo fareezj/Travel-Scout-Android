@@ -20,12 +20,14 @@ class AddTripViewModel(application: Application): AndroidViewModel(application) 
             country: String,
             tripName: String,
             tripDate: String,
+            tripType: String,
             friendList: String): Observable<TripModel.Trip>{
             return travelAPI.addTrip(
                     TripModel.Trip(
                             country = country,
                             tripName = tripName,
                             tripDate = tripDate,
+                            tripType = tripType,
                             friendList = friendList
                     )
             )

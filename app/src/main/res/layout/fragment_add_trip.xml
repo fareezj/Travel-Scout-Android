@@ -89,6 +89,7 @@
             app:layout_constraintVertical_bias="0.39">
 
             <ImageButton
+                android:id="@+id/ib_calendar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_baseline_date_range_24" />
@@ -117,6 +118,7 @@
                 android:layout_width="250dp"
                 android:layout_height="60dp"
                 android:enabled="false"
+                android:textColor="@color/black"
                 tools:layout_editor_absoluteX="56dp"
                 tools:layout_editor_absoluteY="71dp" />
 
