@@ -1,9 +1,11 @@
 package com.wolf.travelscout.data.model
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
 class UserModel {
 
+    @Serializable
     data class User(
 
         @SerializedName("user_id")

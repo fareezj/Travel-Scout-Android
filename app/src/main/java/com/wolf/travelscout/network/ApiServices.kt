@@ -5,6 +5,7 @@ import com.wolf.travelscout.data.model.LoginModel
 import com.wolf.travelscout.data.model.LoginResponse
 import com.wolf.travelscout.data.model.UserModel
 import com.wolf.travelscout.data.model.dashboard.DashboardRes
+import com.wolf.travelscout.data.model.trip.TripModel
 import com.wolf.travelscout.util.HeaderInterceptor
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
@@ -29,6 +30,9 @@ interface ApiServices {
 
     @GET("/searchfriend/{username}")
     fun searchFriend(@Path("username") username: String): Observable<List<UserModel.User>>
+
+    @PUT("/addTrip")
+    fun addTrip(@Body tripData: TripModel.Trip): Observable<TripModel.Trip>
 
     companion object {
         val logger = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)

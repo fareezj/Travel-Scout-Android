@@ -16,11 +16,11 @@
             android:id="@+id/tv_addTrip_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="30dp"
             android:text="Plan New Trip"
             android:textSize="25sp"
             android:textStyle="bold"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="30dp"
             app:layout_constraintBottom_toTopOf="@+id/tv_country_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.142"
@@ -47,8 +47,8 @@
                 android:id="@+id/filled_exposed_dropdown"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                tools:ignore="LabelFor"
-                android:inputType="none"/>
+                android:inputType="none"
+                tools:ignore="LabelFor" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,14 +77,15 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/radioGroup"
-            app:layout_constraintTop_toBottomOf="@+id/tv_trip_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.89"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_trip_title"
             app:layout_constraintVertical_bias="0.39">
 
             <ImageButton
@@ -125,8 +126,8 @@
             android:id="@+id/radioGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginVertical="20dp"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_trip_date"
@@ -136,9 +137,9 @@
                 android:id="@+id/rb_solo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
                 android:background="@drawable/radio_flat_selector"
                 android:button="@android:color/transparent"
+                android:checked="true"
                 android:paddingHorizontal="50dp"
                 android:text="Solo" />
 
@@ -216,23 +217,24 @@
                     android:layout_width="300dp"
                     android:layout_height="120dp"
                     android:orientation="horizontal"
-                    tools:listitem="@layout/search_friend_result_item"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:listitem="@layout/search_friend_result_item" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="50dp"
-                app:layout_constraintTop_toBottomOf="@+id/cl_search_results"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_search_results">
 
                 <TextView
                     android:id="@+id/tv_added_friend_list"
@@ -260,6 +262,20 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+        <Button
+            android:id="@+id/btn_add_trip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Trip"
+            app:layout_constraintTop_toBottomOf="@+id/ll_search_friends" />
+
+        <Button
+            android:id="@+id/btn_deserialize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Deserialize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_search_friends" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

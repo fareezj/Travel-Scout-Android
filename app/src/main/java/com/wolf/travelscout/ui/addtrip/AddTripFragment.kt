@@ -17,6 +17,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_add_trip.*
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import timber.log.Timber
 
 class AddTripFragment : Fragment() {
@@ -42,6 +45,54 @@ class AddTripFragment : Fragment() {
 
         setupComponent()
 
+        btn_add_trip.setOnClickListener {
+
+            val myArrString = Json.encodeToString(selectedTripFriend)
+            Log.i("DATA", myArrString)
+
+            handleAddNewTrip(
+                    "Malaysia",
+                    "Melaka",
+                    "1 January 2021",
+                    myArrString,
+
+            )
+        }
+
+        btn_deserialize.setOnClickListener {
+
+            val myArrString = Json.encodeToString(selectedTripFriend)
+            val deserializer = Json.decodeFromString<List<UserModel.User>>(myArrString)
+            Log.i("DESERIALIZED DATA", deserializer[0].email)
+
+
+        }
+
+    }
+
+    private fun handleAddNewTrip(
+            country: String,
+            tripName: String,
+            tripDate: String,
+            friendList: String){
+
+        val subscribe = viewModel.handleAddTrip(
+                country = country,
+                tripName = tripName,
+                tripDate = tripDate,
+                friendList = friendList
+        )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+
+                    Log.i("DATA", "TRIP ADDED ! ${it.toString()}")
+
+                }, { err ->
+                    var msg = err.localizedMessage
+                    Log.i("DATA", msg.toString())
+                })
+        subscription.add(subscribe)
     }
 
     private fun setupComponent(){
@@ -109,6 +160,8 @@ class AddTripFragment : Fragment() {
 
         addedFriendAdapter.onItemClick = {
             friendList.remove(it)
+            selectedTripFriend.clear()
+            selectedTripFriend.addAll(friendList)
             addedFriendAdapter.notifyDataSetChanged()
         }
 
