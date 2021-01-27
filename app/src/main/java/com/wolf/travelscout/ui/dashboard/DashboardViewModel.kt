@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.wolf.travelscout.data.model.dashboard.DashboardRes
+import com.wolf.travelscout.data.model.trip.TripModel
 import com.wolf.travelscout.network.ApiServices
 import io.reactivex.Observable
 
@@ -19,6 +20,10 @@ class DashboardViewModel(application: Application): AndroidViewModel(application
 
     fun handlePrivatePage(): Observable<List<DashboardRes.DashboardData>> {
         return travelPrivateAPI.privatePage()
+    }
+
+    fun handleUserTripList(): Observable<List<TripModel.Trip>> {
+        return travelPrivateAPI.getTrip()
     }
 
 

@@ -63,7 +63,7 @@ class AddTripFragment : Fragment() {
 
             val myArrString = Json.encodeToString(selectedTripFriend)
             val deserializer = Json.decodeFromString<List<UserModel.User>>(myArrString)
-            Log.i("DESERIALIZED DATA", deserializer[0].email)
+            Log.i("DESERIALIZED DATA", deserializer[1].username)
 
 
         }

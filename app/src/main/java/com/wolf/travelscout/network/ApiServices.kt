@@ -34,6 +34,9 @@ interface ApiServices {
     @PUT("/addTrip")
     fun addTrip(@Body tripData: TripModel.Trip): Observable<TripModel.Trip>
 
+    @GET("/getTrip")
+    fun getTrip(): Observable<List<TripModel.Trip>>
+
     companion object {
         val logger = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
         val okHttpPrivate = OkHttpClient.Builder().addInterceptor(HeaderInterceptor())
