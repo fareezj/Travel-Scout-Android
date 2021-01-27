@@ -5,6 +5,12 @@ import com.google.gson.annotations.SerializedName
 class TripModel {
 
     data class Trip(
+            @SerializedName("id")
+            var tripId: Int = 0,
+
+            @SerializedName("hostId")
+            var hostId: Int = 0,
+
             @SerializedName("country")
             var country: String = "",
 

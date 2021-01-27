@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.wolf.travelscout.R
 import com.wolf.travelscout.data.model.UserModel
+import com.wolf.travelscout.util.SharedPreferencesUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -154,7 +155,10 @@ class AddTripFragment : Fragment() {
             Log.i("DATA", myArrString)
             Log.i("DATA CHECK", ("$tripCountry, $tripName, $tripDate, $tripType"))
 
+            hostID = SharedPreferencesUtil.userID!!
+
             handleAddNewTrip(
+                    hostID,
                     tripCountry,
                     tripName,
                     tripDate,
@@ -234,6 +238,7 @@ class AddTripFragment : Fragment() {
     }
 
     private fun handleAddNewTrip(
+            hostId: Int,
             country: String,
             tripName: String,
             tripDate: String,
@@ -241,6 +246,7 @@ class AddTripFragment : Fragment() {
             friendList: String){
 
         val subscribe = viewModel.handleAddTrip(
+                hostId = hostId,
                 country = country,
                 tripName = tripName,
                 tripDate = tripDate,

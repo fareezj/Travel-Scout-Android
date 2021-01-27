@@ -79,8 +79,8 @@ class DashboardFragment : Fragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
 
-                    Log.i("USER ID", it.toString())
                     SharedPreferencesUtil.userID = it.userID
+                    Log.i("SHARED PREF USER ID", SharedPreferencesUtil.userID.toString())
 
                 }, {err -> var msg = err.localizedMessage
                     Log.i("ERROR", msg.toString())

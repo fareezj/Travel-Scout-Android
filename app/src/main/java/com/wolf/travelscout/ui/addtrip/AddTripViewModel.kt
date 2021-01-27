@@ -17,6 +17,7 @@ class AddTripViewModel(application: Application): AndroidViewModel(application) 
     }
 
     fun handleAddTrip(
+            hostId: Int,
             country: String,
             tripName: String,
             tripDate: String,
@@ -24,6 +25,7 @@ class AddTripViewModel(application: Application): AndroidViewModel(application) 
             friendList: String): Observable<TripModel.Trip>{
             return travelAPI.addTrip(
                     TripModel.Trip(
+                            hostId = hostId,
                             country = country,
                             tripName = tripName,
                             tripDate = tripDate,
