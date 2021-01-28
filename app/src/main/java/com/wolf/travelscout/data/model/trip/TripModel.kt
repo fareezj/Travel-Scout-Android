@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 class TripModel {
 
     data class Trip(
-            @SerializedName("id")
+            @SerializedName("tripId")
             var tripId: Int = 0,
 
             @SerializedName("hostId")

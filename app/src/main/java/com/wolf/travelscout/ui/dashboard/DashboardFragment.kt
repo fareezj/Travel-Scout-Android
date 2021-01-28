@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.wolf.travelscout.R
 import com.wolf.travelscout.data.model.UserModel
 import com.wolf.travelscout.data.model.trip.TripModel
+import com.wolf.travelscout.data.model.trip.UpcomingTripModel
 import com.wolf.travelscout.databinding.FragmentDashboardBinding
 import com.wolf.travelscout.util.SharedPreferencesUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -20,6 +21,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class DashboardFragment : Fragment() {
@@ -31,6 +33,8 @@ class DashboardFragment : Fragment() {
     private var subscription = CompositeDisposable()
     private var upcomingTripList: ArrayList<TripModel.Trip> = arrayListOf()
     private var username: String? = ""
+    private var tripListData: ArrayList<TripModel.Trip> = arrayListOf()
+    private var tripId: ArrayList<Int> = arrayListOf()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +56,7 @@ class DashboardFragment : Fragment() {
         handlePrivatePage()
         handleCurrentUserData(username!!)
         handleGetUserTripList()
+        //handleUpdateFriendsUpcomingTrip(2, "1")
 
 
         ib_add_trip.setOnClickListener {
@@ -108,11 +113,39 @@ class DashboardFragment : Fragment() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                           upcomingTripList.addAll(it)
+
+                      upcomingTripList.addAll(it)
+                      Log.i("ORIGINAL TRIP LIST", it.toString())
 
 //                    val decodedJson = Json.decodeFromString<List<UserModel.User>>(friendListTrip)
 //                    Log.i("DECODED DATA", decodedJson[0].username)
+                     for (trip in it){
 
+                         val decodedJson = Json.decodeFromString<List<UserModel.User>>(trip.friendList)
+                         tripId.clear()
+                         tripId.add(trip.tripId)
+                         val tripIdString = tripId.joinToString ()
+
+                         for(user in decodedJson){
+                             val extractedFriendId: Int = user.userID
+                             handleUpdateFriendsUpcomingTrip(user.userID,tripIdString)
+                         }
+
+                     }
+
+                }, { err -> var msg = err.localizedMessage
+                    Log.i("ERROR", msg.toString())
+                })
+        subscription.add(subscribe)
+    }
+
+    private fun handleUpdateFriendsUpcomingTrip(userId: Int, upcomingTrips: String){
+
+        val subscribe = viewModel.handleUpdateFriendsUpcomingTrip(userId, upcomingTrips)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    Log.i("SUCCESS", "alerted !")
 
                 }, { err -> var msg = err.localizedMessage
                     Log.i("ERROR", msg.toString())

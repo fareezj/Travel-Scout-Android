@@ -10,6 +10,7 @@ import com.wolf.travelscout.util.HeaderInterceptor
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -36,6 +37,10 @@ interface ApiServices {
 
     @PUT("/addTrip")
     fun addTrip(@Body tripData: TripModel.Trip): Observable<TripModel.Trip>
+
+    @PUT("/updateTrip/{userId}/{upcomingTrip}")
+    fun updateUpcomingTrips (@Path("userId") userId: Int, @Path("upcomingTrip") tripId: String)
+        : Observable<DashboardRes.DashboardData>
 
     @GET("/getTrip")
     fun getTrip(): Observable<List<TripModel.Trip>>

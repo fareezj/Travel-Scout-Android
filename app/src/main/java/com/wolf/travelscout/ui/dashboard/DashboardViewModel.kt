@@ -9,6 +9,7 @@ import com.wolf.travelscout.data.model.dashboard.DashboardRes
 import com.wolf.travelscout.data.model.trip.TripModel
 import com.wolf.travelscout.network.ApiServices
 import io.reactivex.Observable
+import retrofit2.Response
 
 class DashboardViewModel(application: Application): AndroidViewModel(application) {
 
@@ -29,6 +30,10 @@ class DashboardViewModel(application: Application): AndroidViewModel(application
 
     fun handleGetCurrentUser(username: String): Observable<UserModel.User> {
         return travelPrivateAPI.getUser(username)
+    }
+
+    fun handleUpdateFriendsUpcomingTrip(userId: Int, upcomingTrip: String): Observable<DashboardRes.DashboardData>{
+        return travelPrivateAPI.updateUpcomingTrips(userId, upcomingTrip)
     }
 
 

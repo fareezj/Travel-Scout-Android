@@ -129,10 +129,13 @@ class AddTripFragment : Fragment() {
                 R.id.rb_solo -> {
                     ll_search_friends.visibility = View.GONE
                     tripType = rb_solo.text.toString()
+                    Log.i("TRIP TYPE", tripType)
                 }
                 R.id.rb_friends -> {
                     ll_search_friends.visibility = View.VISIBLE
                     tripType = rb_friends.text.toString()
+                    Log.i("TRIP TYPE", tripType)
+
                 }
             }
         }
@@ -156,6 +159,7 @@ class AddTripFragment : Fragment() {
             Log.i("DATA CHECK", ("$tripCountry, $tripName, $tripDate, $tripType"))
 
             hostID = SharedPreferencesUtil.userID!!
+            Log.i("TRIP TYPE", tripType)
 
             handleAddNewTrip(
                     hostID,
