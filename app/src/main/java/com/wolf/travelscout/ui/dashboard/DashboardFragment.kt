@@ -35,6 +35,7 @@ class DashboardFragment : Fragment() {
     private var username: String? = ""
     private var tripListData: ArrayList<TripModel.Trip> = arrayListOf()
     private var tripId: ArrayList<Int> = arrayListOf()
+    private var totalTrips: Int = 0
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +57,9 @@ class DashboardFragment : Fragment() {
         handlePrivatePage()
         handleCurrentUserData(username!!)
         handleGetUserTripList()
+        binding.tvGreetingMessage.text = totalTrips.toString()
         //handleUpdateFriendsUpcomingTrip(2, "1")
+        handleCurrentUserData("Fareez")
 
 
         ib_add_trip.setOnClickListener {
@@ -86,6 +89,7 @@ class DashboardFragment : Fragment() {
 
                     SharedPreferencesUtil.userID = it.userID
                     Log.i("SHARED PREF USER ID", SharedPreferencesUtil.userID.toString())
+                    Log.i("TRIP COUNT FOR FAREEZ====", it.upcomingTrip)
 
                 }, {err -> var msg = err.localizedMessage
                     Log.i("ERROR", msg.toString())
@@ -127,9 +131,44 @@ class DashboardFragment : Fragment() {
                          val tripIdString = tripId.joinToString ()
 
                          for(user in decodedJson){
-                             val extractedFriendId: Int = user.userID
-                             handleUpdateFriendsUpcomingTrip(user.userID,tripIdString)
+
+                             //FILTER UPCOMING TRIP ID
+                             if(user.upcomingTrip.length == 1){
+
+                                 val currentTripID: ArrayList<String> = arrayListOf()
+                                 currentTripID.add(user.upcomingTrip)
+                                 currentTripID.add(tripIdString)
+                                 val finalTripID: String = currentTripID.joinToString()
+
+                                 handleUpdateFriendsUpcomingTrip(user.userID,finalTripID)
+
+                             }else if (user.upcomingTrip.length > 1){
+
+                                 val currentTripID: List<String> = user.upcomingTrip.split(", ")
+                                 val filteredTrip = currentTripID.toMutableList()
+                                 filteredTrip.add(tripIdString)
+                                 val finalTripID: String = filteredTrip.joinToString()
+
+                                 handleUpdateFriendsUpcomingTrip(user.userID,finalTripID)
+
+
+
+//                                 val extractedTripID: ArrayList<String> = arrayListOf()
+//                                 extractedTripID.add(user.upcomingTrip)
+//                                 Log.i("EXTRACTEDTRIPID", extractedTripID.toString())
+//
+//
+//                                 val currentTripID: MutableList<String> = extractedTripID
+//                                 currentTripID.add(tripIdString)
+
+                                 //val finalTripID: String = currentTripID.joinToString()
+                             }else{
+                                 handleUpdateFriendsUpcomingTrip(user.userID, tripIdString)
+                             }
+                             Log.i("LIST OF STRING FINAL", "${user.username} - ${user.upcomingTrip}")
+
                          }
+
 
                      }
 
