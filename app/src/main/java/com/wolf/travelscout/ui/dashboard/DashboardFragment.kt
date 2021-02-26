@@ -1,11 +1,13 @@
 package com.wolf.travelscout.ui.dashboard
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -16,6 +18,7 @@ import com.wolf.travelscout.data.model.UserModel
 import com.wolf.travelscout.data.model.trip.TripModel
 import com.wolf.travelscout.data.model.trip.UpcomingTripModel
 import com.wolf.travelscout.databinding.FragmentDashboardBinding
+import com.wolf.travelscout.util.BundleKeys
 import com.wolf.travelscout.util.SharedPreferencesUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -71,6 +74,7 @@ class DashboardFragment : Fragment() {
 
     }
 
+    @SuppressLint("CheckResult")
     private fun setupUpcomingTripAdapter(tripList: ArrayList<TripModel.Trip>){
 
         rv_upcoming_trip.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -78,8 +82,12 @@ class DashboardFragment : Fragment() {
         upcomingTripAdapter = UpcomingTripAdapter(requireContext(), tripList)
         rv_upcoming_trip.adapter = upcomingTripAdapter
         upcomingTripAdapter.observeEvent.subscribe {
+            val bundle = bundleOf(
+                    BundleKeys.tripID to it.tripId.toString()
+            )
             findNavController().navigate(
-                R.id.action_dashboardFragment_to_tripDetailsFragment
+                    R.id.action_dashboardFragment_to_tripDetailsFragment,
+                    bundle
             )
         }
     }
