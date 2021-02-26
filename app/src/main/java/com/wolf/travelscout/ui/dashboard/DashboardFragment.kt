@@ -33,8 +33,6 @@ class DashboardFragment : Fragment() {
     private var subscription = CompositeDisposable()
     private var upcomingTripList: ArrayList<TripModel.Trip> = arrayListOf()
     private var username: String? = ""
-    private var tripListData: ArrayList<TripModel.Trip> = arrayListOf()
-    private var tripId: ArrayList<Int> = arrayListOf()
     private var totalTrips: Int = 0
 
 
@@ -117,60 +115,13 @@ class DashboardFragment : Fragment() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-
-                      upcomingTripList.addAll(it)
-                      Log.i("ORIGINAL TRIP LIST", it.toString())
-
-//                    val decodedJson = Json.decodeFromString<List<UserModel.User>>(friendListTrip)
-//                    Log.i("DECODED DATA", decodedJson[0].username)
-                     for (trip in it){
-
-                         val decodedJson = Json.decodeFromString<List<UserModel.User>>(trip.friendList)
-                         tripId.clear()
-                         tripId.add(trip.tripId)
-                         val tripIdString = tripId.joinToString ()
-
-                         for(user in decodedJson){
-
-                             //FILTER UPCOMING TRIP ID
-                             if(user.upcomingTrip.length == 1){
-
-                                 val currentTripID: ArrayList<String> = arrayListOf()
-                                 currentTripID.add(user.upcomingTrip)
-                                 currentTripID.add(tripIdString)
-                                 val finalTripID: String = currentTripID.joinToString()
-
-                                 handleUpdateFriendsUpcomingTrip(user.userID,finalTripID)
-
-                             }else if (user.upcomingTrip.length > 1){
-
-                                 val currentTripID: List<String> = user.upcomingTrip.split(", ")
-                                 val filteredTrip = currentTripID.toMutableList()
-                                 filteredTrip.add(tripIdString)
-                                 val finalTripID: String = filteredTrip.joinToString()
-
-                                 handleUpdateFriendsUpcomingTrip(user.userID,finalTripID)
-
-
-
-//                                 val extractedTripID: ArrayList<String> = arrayListOf()
-//                                 extractedTripID.add(user.upcomingTrip)
-//                                 Log.i("EXTRACTEDTRIPID", extractedTripID.toString())
-//
-//
-//                                 val currentTripID: MutableList<String> = extractedTripID
-//                                 currentTripID.add(tripIdString)
-
-                                 //val finalTripID: String = currentTripID.joinToString()
-                             }else{
-                                 handleUpdateFriendsUpcomingTrip(user.userID, tripIdString)
-                             }
-                             Log.i("LIST OF STRING FINAL", "${user.username} - ${user.upcomingTrip}")
-
-                         }
-
-
-                     }
+                    Log.i("CURRENT ID", "${SharedPreferencesUtil.userID.toString()}")
+                    for(i in it){
+                        if(SharedPreferencesUtil.userID == i.hostId){
+                            upcomingTripList.add(i)
+                            Log.i("MATCHED ID", i.hostId.toString())
+                        }
+                    }
 
                 }, { err -> var msg = err.localizedMessage
                     Log.i("ERROR", msg.toString())
@@ -178,17 +129,5 @@ class DashboardFragment : Fragment() {
         subscription.add(subscribe)
     }
 
-    private fun handleUpdateFriendsUpcomingTrip(userId: Int, upcomingTrips: String){
 
-        val subscribe = viewModel.handleUpdateFriendsUpcomingTrip(userId, upcomingTrips)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    Log.i("SUCCESS", "alerted !")
-
-                }, { err -> var msg = err.localizedMessage
-                    Log.i("ERROR", msg.toString())
-                })
-        subscription.add(subscribe)
-    }
 }

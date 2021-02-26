@@ -32,9 +32,6 @@ class DashboardViewModel(application: Application): AndroidViewModel(application
         return travelPrivateAPI.getUser(username)
     }
 
-    fun handleUpdateFriendsUpcomingTrip(userId: Int, upcomingTrip: String): Observable<DashboardRes.DashboardData>{
-        return travelPrivateAPI.updateUpcomingTrips(userId, upcomingTrip)
-    }
 
 
 
