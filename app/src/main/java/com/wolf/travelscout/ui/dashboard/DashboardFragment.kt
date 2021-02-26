@@ -83,7 +83,12 @@ class DashboardFragment : Fragment() {
         rv_upcoming_trip.adapter = upcomingTripAdapter
         upcomingTripAdapter.observeEvent.subscribe {
             val bundle = bundleOf(
-                    BundleKeys.tripID to it.tripId.toString()
+                    BundleKeys.tripID to it.tripId.toString(),
+                    BundleKeys.tripHostID to it.hostId.toString(),
+                    BundleKeys.tripCountry to it.country,
+                    BundleKeys.tripName to it.tripName,
+                    BundleKeys.tripDate to it.tripDate,
+                    BundleKeys.tripType to it.tripType
             )
             findNavController().navigate(
                     R.id.action_dashboardFragment_to_tripDetailsFragment,
