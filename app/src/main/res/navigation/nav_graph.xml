@@ -31,10 +31,18 @@
         <action
             android:id="@+id/action_dashboardFragment_to_addTripFragment"
             app:destination="@id/addTripFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_tripDetailsFragment"
+            app:destination="@id/tripDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/addTripFragment"
         android:name="com.wolf.travelscout.ui.addtrip.AddTripFragment"
         android:label="fragment_add_trip"
         tools:layout="@layout/fragment_add_trip" />
+    <fragment
+        android:id="@+id/tripDetailsFragment"
+        android:name="com.wolf.travelscout.ui.tripDetails.TripDetailsFragment"
+        android:label="fragment_trip_details"
+        tools:layout="@layout/fragment_trip_details" />
 </navigation>

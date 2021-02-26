@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wolf.travelscout.R
 import com.wolf.travelscout.data.model.UserModel
@@ -76,7 +77,11 @@ class DashboardFragment : Fragment() {
         rv_upcoming_trip.setHasFixedSize(true)
         upcomingTripAdapter = UpcomingTripAdapter(requireContext(), tripList)
         rv_upcoming_trip.adapter = upcomingTripAdapter
-
+        upcomingTripAdapter.observeEvent.subscribe {
+            findNavController().navigate(
+                R.id.action_dashboardFragment_to_tripDetailsFragment
+            )
+        }
     }
 
     private fun handleCurrentUserData(username: String) {
