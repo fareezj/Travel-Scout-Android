@@ -115,7 +115,7 @@ class DashboardFragment : Fragment() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    Log.i("CURRENT ID", "${SharedPreferencesUtil.userID.toString()}")
+                    upcomingTripList.clear()
                     for(i in it){
                         if(SharedPreferencesUtil.userID == i.hostId){
                             upcomingTripList.add(i)
