@@ -88,7 +88,8 @@ class DashboardFragment : Fragment() {
                     BundleKeys.tripCountry to it.country,
                     BundleKeys.tripName to it.tripName,
                     BundleKeys.tripDate to it.tripDate,
-                    BundleKeys.tripType to it.tripType
+                    BundleKeys.tripType to it.tripType,
+                    BundleKeys.tripFriends to it.friendList
             )
             findNavController().navigate(
                     R.id.action_dashboardFragment_to_tripDetailsFragment,

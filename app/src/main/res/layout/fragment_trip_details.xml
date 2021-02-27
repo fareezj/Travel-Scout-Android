@@ -48,5 +48,17 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_tripDate"
         android:text="Trip Details Fragment" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_trip_friend_list"
+        android:layout_width="300dp"
+        android:layout_height="120dp"
+        android:layout_marginEnd="56dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.33"
+        tools:listitem="@layout/search_friend_result_item" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

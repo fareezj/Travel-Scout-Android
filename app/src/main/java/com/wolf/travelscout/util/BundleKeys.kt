@@ -8,4 +8,5 @@ object BundleKeys {
     const val tripName = "TRIP_NAME"
     const val tripDate = "TRIP_DATE"
     const val tripType = "TRIP_TYPE"
+    const val tripFriends = "TRIP_FRIENDS"
 }
