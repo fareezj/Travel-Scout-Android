@@ -6,59 +6,228 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.tripDetails.TripDetailsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/tv_tripId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Trip Details Fragment" />
+        android:layout_marginTop="32dp"
+        android:text="Trip Details"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/cardView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_tripHostId"
-        android:layout_width="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/tv_tripId"
-        android:text="Trip Details Fragment" />
-
-    <TextView
-        android:id="@+id/tv_tripName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/tv_tripHostId"
-        android:text="Trip Details Fragment" />
-
-    <TextView
-        android:id="@+id/tv_tripCountry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/tv_tripName"
-        android:text="Trip Details Fragment" />
-
-    <TextView
-        android:id="@+id/tv_tripDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/tv_tripCountry"
-        android:text="Trip Details Fragment" />
-
-    <TextView
-        android:id="@+id/tv_tripType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/tv_tripDate"
-        android:text="Trip Details Fragment" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_trip_friend_list"
-        android:layout_width="300dp"
-        android:layout_height="120dp"
-        android:layout_marginEnd="56dp"
-        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.33"
-        tools:listitem="@layout/search_friend_result_item" />
+        app:layout_constraintVertical_bias="0.394">
+
+        <LinearLayout
+            android:padding="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Trip ID: "
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tv_tripId"
+                    android:layout_marginLeft="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trip Details Fragment" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Trip Host ID: "
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tv_tripHostId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trip Details Fragment"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_tripId" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Trip Name: "
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tv_tripName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trip Details Fragment"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_tripHostId" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Trip Country: "
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tv_tripCountry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trip Details Fragment"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_tripName" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Trip Date: "
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tv_tripDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trip Details Fragment"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_tripCountry" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="Trip Type: "
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tv_tripType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trip Details Fragment"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_tripDate" />
+
+            </LinearLayout>
+
+            <TextView
+                android:text="Friend List"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18dp"
+                android:layout_marginVertical="10dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_trip_friend_list"
+                android:layout_width="316dp"
+                android:layout_height="120dp"
+                android:layout_marginEnd="56dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal"
+                tools:listitem="@layout/search_friend_result_item" />
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

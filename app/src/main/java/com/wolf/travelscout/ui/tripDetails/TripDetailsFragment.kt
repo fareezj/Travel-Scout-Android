@@ -71,11 +71,9 @@ class TripDetailsFragment : Fragment() {
 
     private fun setupAdapter(friendList: List<UserModel.User>){
 
-        rv_trip_friend_list.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        rv_trip_friend_list.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rv_trip_friend_list.setHasFixedSize(true)
         adapter = TripFriendListAdapter(requireContext(), friendList)
         rv_trip_friend_list.adapter = adapter
-
-
     }
 }
