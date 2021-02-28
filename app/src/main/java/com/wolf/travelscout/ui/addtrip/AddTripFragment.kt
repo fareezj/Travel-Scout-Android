@@ -5,16 +5,16 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.RadioButton
-import androidx.annotation.MainThread
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.snackbar.Snackbar
 import com.wolf.travelscout.R
 import com.wolf.travelscout.data.model.UserModel
 import com.wolf.travelscout.data.model.trip.TripModel
@@ -27,9 +27,8 @@ import kotlinx.android.synthetic.main.fragment_register.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import timber.log.Timber
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 class AddTripFragment : Fragment() {
 
@@ -37,6 +36,7 @@ class AddTripFragment : Fragment() {
     private lateinit var viewModel: AddTripViewModel
     private lateinit var adapter: SearchFriendResultAdapter
     private lateinit var addedFriendAdapter: FriendAddedAdapter
+    private lateinit var navController: NavController
     private var friendList: ArrayList<UserModel.User> = arrayListOf()
     private var searchName: String = ""
     private var selectedTripFriend: ArrayList<UserModel.User> = arrayListOf()
@@ -60,7 +60,7 @@ class AddTripFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(AddTripViewModel::class.java)
-
+        navController = Navigation.findNavController(view)
         setupComponent()
 
         btn_deserialize.setOnClickListener {
@@ -234,7 +234,8 @@ class AddTripFragment : Fragment() {
                     friendList.addAll(it)
                     setupAdapter(friendList)
                     adapter.notifyDataSetChanged()
-                },{ err -> var msg = err.localizedMessage
+                }, { err ->
+                    var msg = err.localizedMessage
                     Log.i("DATA", err.toString())
                 })
         subscription.add(subscribe)
@@ -267,6 +268,9 @@ class AddTripFragment : Fragment() {
 
                     Log.i("DATA", "TRIP ADDED ! ${it.toString()}")
                     handleGetUserTripList()
+                    val snackbar = Snackbar.make(requireView(), "Trip Added!", Snackbar.LENGTH_SHORT)
+                    snackbar.show()
+                    navController.navigate(R.id.action_addTripFragment_to_dashboardFragment)
                 }, { err ->
                     var msg = err.localizedMessage
                     Log.i("DATA", msg.toString())
@@ -282,36 +286,35 @@ class AddTripFragment : Fragment() {
 
                 Log.i("ORIGINAL TRIP LIST", it.toString())
 
-                  //val decodedJson = Json.decodeFromString<List<UserModel.User>>(friendListTrip)
-                  //Log.i("DECODED DATA", decodedJson[0].username)
-                for (trip in it){
+                //val decodedJson = Json.decodeFromString<List<UserModel.User>>(friendListTrip)
+                //Log.i("DECODED DATA", decodedJson[0].username)
+                for (trip in it) {
 
                     val decodedJson = Json.decodeFromString<List<UserModel.User>>(trip.friendList)
                     tripId.clear()
                     tripId.add(trip.tripId)
-                    val tripIdString = tripId.joinToString ()
+                    val tripIdString = tripId.joinToString()
 
-                    for(user in decodedJson){
+                    for (user in decodedJson) {
 
                         //FILTER UPCOMING TRIP ID
-                        if(user.upcomingTrip.length == 1){
+                        if (user.upcomingTrip.length == 1) {
 
                             val currentTripID: ArrayList<String> = arrayListOf()
                             currentTripID.add(user.upcomingTrip)
                             currentTripID.add(tripIdString)
                             val finalTripID: String = currentTripID.joinToString()
 
-                            handleUpdateFriendsUpcomingTrip(user.userID,finalTripID)
+                            handleUpdateFriendsUpcomingTrip(user.userID, finalTripID)
 
-                        }else if (user.upcomingTrip.contains(", ") || user.upcomingTrip.length > 1){
+                        } else if (user.upcomingTrip.contains(", ") || user.upcomingTrip.length > 1) {
 
                             val currentTripID: List<String> = user.upcomingTrip.split(", ")
                             val filteredTrip = currentTripID.toMutableList()
                             filteredTrip.add(tripIdString)
                             val finalTripID: String = filteredTrip.joinToString()
 
-                            handleUpdateFriendsUpcomingTrip(user.userID,finalTripID)
-
+                            handleUpdateFriendsUpcomingTrip(user.userID, finalTripID)
 
 
 //                                 val extractedTripID: ArrayList<String> = arrayListOf()
@@ -323,7 +326,7 @@ class AddTripFragment : Fragment() {
 //                                 currentTripID.add(tripIdString)
 
                             //val finalTripID: String = currentTripID.joinToString()
-                        }else{
+                        } else {
                             handleUpdateFriendsUpcomingTrip(user.userID, tripIdString)
                         }
                         Log.i("LIST OF STRING FINAL", "${user.username} - ${user.upcomingTrip}")
@@ -333,7 +336,8 @@ class AddTripFragment : Fragment() {
 
                 }
 
-            }, { err -> var msg = err.localizedMessage
+            }, { err ->
+                var msg = err.localizedMessage
                 Log.i("ERROR", msg.toString())
             })
         subscription.add(subscribe)
@@ -347,7 +351,8 @@ class AddTripFragment : Fragment() {
             .subscribe({
                 Log.i("SUCCESS", "alerted !")
 
-            }, { err -> var msg = err.localizedMessage
+            }, { err ->
+                var msg = err.localizedMessage
                 Log.i("ERROR", msg.toString())
             })
         subscription.add(subscribe)

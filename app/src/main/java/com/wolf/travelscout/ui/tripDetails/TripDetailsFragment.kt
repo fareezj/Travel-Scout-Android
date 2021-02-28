@@ -7,7 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.wolf.travelscout.R
 import com.wolf.travelscout.data.model.UserModel
 import com.wolf.travelscout.util.BundleKeys
@@ -30,6 +33,7 @@ class TripDetailsFragment : Fragment() {
     private var tripType: String? = ""
     private var tripFriends: String? = ""
     private var subscription = CompositeDisposable()
+    private lateinit var navController: NavController
     private lateinit var viewModel: TripDetailsViewModel
     private lateinit var adapter : TripFriendListAdapter
     private var decodedFriendList: List<UserModel.User> = arrayListOf()
@@ -46,6 +50,7 @@ class TripDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(TripDetailsViewModel::class.java)
+        navController = Navigation.findNavController(view)
         getDataFromArguments()
         setupView()
     }
@@ -94,9 +99,12 @@ class TripDetailsFragment : Fragment() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-
+                    Log.i("SERVER RESPONSE: ", it.message.toString())
+                    val snackbar = Snackbar.make(requireView(), "Trip Deleted!", Snackbar.LENGTH_SHORT)
+                    snackbar.show()
+                    navController.navigate(R.id.action_tripDetailsFragment_to_dashboardFragment)
                 }, {err -> var msg = err.localizedMessage
-                    Log.i("ERROR", msg.toString())
+                    Log.i("ERROR TRIP DELETE", msg.toString())
                 })
         subscription.add(subscribe)
     }
