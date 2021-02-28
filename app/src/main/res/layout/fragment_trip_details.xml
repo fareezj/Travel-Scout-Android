@@ -7,6 +7,7 @@
     tools:context=".ui.tripDetails.TripDetailsFragment">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -228,6 +229,17 @@
 
 
     </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btn_trip_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Trip"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

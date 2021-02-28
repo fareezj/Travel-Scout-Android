@@ -6,10 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wolf.travelscout.R
 import com.wolf.travelscout.data.model.UserModel
 import com.wolf.travelscout.util.BundleKeys
+import com.wolf.travelscout.util.SharedPreferencesUtil
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_trip_details.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -24,6 +29,8 @@ class TripDetailsFragment : Fragment() {
     private var tripDate: String? = ""
     private var tripType: String? = ""
     private var tripFriends: String? = ""
+    private var subscription = CompositeDisposable()
+    private lateinit var viewModel: TripDetailsViewModel
     private lateinit var adapter : TripFriendListAdapter
     private var decodedFriendList: List<UserModel.User> = arrayListOf()
 
@@ -38,6 +45,7 @@ class TripDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = ViewModelProvider(this).get(TripDetailsViewModel::class.java)
         getDataFromArguments()
         setupView()
     }
@@ -61,6 +69,10 @@ class TripDetailsFragment : Fragment() {
         tv_tripType.text = tripType
 
         decodeFriendList(tripFriends!!)
+
+        btn_trip_delete.setOnClickListener {
+            handleDeleteTrip(tripId!!.toInt())
+        }
     }
 
     private fun decodeFriendList(tripFriends: String) {
@@ -75,5 +87,17 @@ class TripDetailsFragment : Fragment() {
         rv_trip_friend_list.setHasFixedSize(true)
         adapter = TripFriendListAdapter(requireContext(), friendList)
         rv_trip_friend_list.adapter = adapter
+    }
+
+    private fun handleDeleteTrip(tripId: Int){
+        val subscribe = viewModel.handleDeleteTrip(tripId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+
+                }, {err -> var msg = err.localizedMessage
+                    Log.i("ERROR", msg.toString())
+                })
+        subscription.add(subscribe)
     }
 }
