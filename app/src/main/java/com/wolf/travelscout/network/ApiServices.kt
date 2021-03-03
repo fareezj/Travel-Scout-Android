@@ -48,6 +48,9 @@ interface ApiServices {
     @DELETE("/deleteTrip/{tripId}")
     fun deleteTripById (@Path("tripId") tripId: Int): Observable<DashboardRes.DashboardData>
 
+    @PUT("/updateTrip/{tripId}")
+    fun updateTripById(@Path("tripId") tripId: Int, @Body tripData: TripModel.Trip): Observable<TripModel.Trip>
+
     companion object {
         val logger = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
         val okHttpPrivate = OkHttpClient.Builder().addInterceptor(HeaderInterceptor())

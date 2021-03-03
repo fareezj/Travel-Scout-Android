@@ -2,6 +2,7 @@ package com.wolf.travelscout.util
 
 object BundleKeys {
 
+    const val tripModeFragment = "TRIP_MODE_FRAGMENT"
     const val tripID = "TRIP_ID"
     const val tripCountry = "TRIP_COUNTRY"
     const val tripHostID = "TRIP_HOST_ID"

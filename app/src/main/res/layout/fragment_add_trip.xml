@@ -269,6 +269,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Trip"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_search_friends" />
+
+        <Button
+            android:id="@+id/btn_edit_trip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update Trip"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@id/btn_add_trip"
             app:layout_constraintTop_toBottomOf="@+id/ll_search_friends" />
 
         <Button

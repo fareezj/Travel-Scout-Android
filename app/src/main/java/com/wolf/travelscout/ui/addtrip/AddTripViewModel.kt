@@ -22,7 +22,6 @@ class AddTripViewModel(application: Application): AndroidViewModel(application) 
         return travelPrivateAPI.getTrip()
     }
 
-
     fun handleUpdateFriendsUpcomingTrip(userId: Int, upcomingTrip: String): Observable<DashboardRes.DashboardData>{
         return travelPrivateAPI.updateUpcomingTrips(userId, upcomingTrip)
     }
@@ -46,4 +45,25 @@ class AddTripViewModel(application: Application): AndroidViewModel(application) 
             )
     }
 
+    fun handleUpdateTripDetails(
+            tripId: Int,
+            hostId: Int,
+            country: String,
+            tripName: String,
+            tripDate: String,
+            tripType: String,
+            friendList: String): Observable<TripModel.Trip>{
+            return travelPrivateAPI.updateTripById(
+                    tripId,
+                    TripModel.Trip(
+                            tripId = tripId,
+                            hostId = hostId,
+                            country = country,
+                            tripName = tripName,
+                            tripDate = tripDate,
+                            tripType = tripType,
+                            friendList = friendList
+                    )
+            )
+    }
 }

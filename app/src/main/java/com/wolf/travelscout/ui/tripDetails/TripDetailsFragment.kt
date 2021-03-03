@@ -6,9 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.wolf.travelscout.R
@@ -77,6 +79,23 @@ class TripDetailsFragment : Fragment() {
 
         btn_trip_delete.setOnClickListener {
             handleDeleteTrip(tripId!!.toInt())
+        }
+
+        btn_trip_edit.setOnClickListener {
+            val bundle = bundleOf(
+                    BundleKeys.tripModeFragment to "EditTripMode",
+                    BundleKeys.tripID to tripId,
+                    BundleKeys.tripHostID to tripHostId,
+                    BundleKeys.tripCountry to tripCountry,
+                    BundleKeys.tripName to tripName,
+                    BundleKeys.tripDate to tripDate,
+                    BundleKeys.tripType to tripType,
+                    BundleKeys.tripFriends to tripFriends
+            )
+            findNavController().navigate(
+                    R.id.action_tripDetailsFragment_to_addTripFragment,
+                    bundle
+            )
         }
     }
 

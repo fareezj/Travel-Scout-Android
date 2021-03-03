@@ -18,6 +18,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.wolf.travelscout.R
 import com.wolf.travelscout.data.model.UserModel
 import com.wolf.travelscout.data.model.trip.TripModel
+import com.wolf.travelscout.util.BundleKeys
 import com.wolf.travelscout.util.SharedPreferencesUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -37,6 +38,7 @@ class AddTripFragment : Fragment() {
     private lateinit var adapter: SearchFriendResultAdapter
     private lateinit var addedFriendAdapter: FriendAddedAdapter
     private lateinit var navController: NavController
+    private var fragmentMode = ""
     private var friendList: ArrayList<UserModel.User> = arrayListOf()
     private var searchName: String = ""
     private var selectedTripFriend: ArrayList<UserModel.User> = arrayListOf()
@@ -48,6 +50,8 @@ class AddTripFragment : Fragment() {
     private var hostID: Int = 0
     private var tripListData: ArrayList<TripModel.Trip> = arrayListOf()
     private var tripId: ArrayList<Int> = arrayListOf()
+    private var fetchedTripId: Int = 0
+    private var fetchedFriends: String = ""
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -62,11 +66,55 @@ class AddTripFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(AddTripViewModel::class.java)
         navController = Navigation.findNavController(view)
         setupComponent()
+        getModeFromArgument()
+        if(fragmentMode == "EditTripMode"){
+            setupEditMode();
+        }
 
         btn_deserialize.setOnClickListener {
 
             val myArrString = Json.encodeToString(selectedTripFriend)
             val deserializer = Json.decodeFromString<List<UserModel.User>>(myArrString)
+        }
+
+    }
+
+    private fun getModeFromArgument(){
+        fragmentMode = arguments?.getString(BundleKeys.tripModeFragment).toString()
+    }
+
+    private fun setupEditMode(){
+        fetchedTripId = arguments?.getString(BundleKeys.tripID)!!.toInt()
+        hostID = arguments?.getString(BundleKeys.tripHostID)!!.toInt()
+        tripName = arguments?.getString(BundleKeys.tripName)!!
+        tripCountry = arguments?.getString(BundleKeys.tripCountry)!!
+        tripDate = arguments?.getString(BundleKeys.tripDate)!!
+        tripType = arguments?.getString(BundleKeys.tripType)!!
+        fetchedFriends = arguments?.getString(BundleKeys.tripFriends)!!
+
+        tv_addTrip_title.text = "Edit Trip"
+        et_trip_name.setText(tripName)
+        filled_exposed_dropdown.setText(tripCountry)
+        et_trip_date.setText(tripDate)
+        if(tripType == "Friends"){
+            radioGroup.check(R.id.rb_friends)
+        }else{
+            radioGroup.check(R.id.rb_solo)
+        }
+
+        btn_add_trip.visibility = View.GONE
+        btn_edit_trip.visibility = View.VISIBLE
+
+        btn_edit_trip.setOnClickListener {
+            handleUpdateTripDetails(
+                    fetchedTripId,
+                    hostID,
+                    tripCountry,
+                    "KL",
+                    tripDate,
+                    tripType,
+                    fetchedFriends,
+            );
         }
 
     }
@@ -277,6 +325,42 @@ class AddTripFragment : Fragment() {
                 })
         subscription.add(subscribe)
     }
+
+    private fun handleUpdateTripDetails(
+            tripId: Int,
+            hostId: Int,
+            country: String,
+            tripName: String,
+            tripDate: String,
+            tripType: String,
+            friendList: String
+    ) {
+
+        val subscribe = viewModel.handleUpdateTripDetails(
+                tripId = tripId,
+                hostId = hostId,
+                country = country,
+                tripName = tripName,
+                tripDate = tripDate,
+                tripType = tripType,
+                friendList = friendList
+        )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+
+                    Log.i("DATA", "TRIP UPDATED ! ${it.toString()}")
+                    handleGetUserTripList()
+                    val snackbar = Snackbar.make(requireView(), "Trip Details Updated!", Snackbar.LENGTH_SHORT)
+                    snackbar.show()
+                    navController.navigate(R.id.action_addTripFragment_to_dashboardFragment)
+                }, { err ->
+                    var msg = err.localizedMessage
+                    Log.i("DATA", msg.toString())
+                })
+        subscription.add(subscribe)
+    }
+
 
     private fun handleGetUserTripList() {
         val subscribe = viewModel.handleUserTripList()
