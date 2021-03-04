@@ -50,8 +50,9 @@ class AddTripFragment : Fragment() {
     private var hostID: Int = 0
     private var tripListData: ArrayList<TripModel.Trip> = arrayListOf()
     private var tripId: ArrayList<Int> = arrayListOf()
-    private var fetchedTripId: Int = 0
-    private var fetchedFriends: String = ""
+    private var getTripId: Int = 0
+    private var getFetchedFriends: String = ""
+    private var getHostID: Int = 0
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -84,19 +85,19 @@ class AddTripFragment : Fragment() {
     }
 
     private fun setupEditMode(){
-        fetchedTripId = arguments?.getString(BundleKeys.tripID)!!.toInt()
-        hostID = arguments?.getString(BundleKeys.tripHostID)!!.toInt()
-        tripName = arguments?.getString(BundleKeys.tripName)!!
-        tripCountry = arguments?.getString(BundleKeys.tripCountry)!!
-        tripDate = arguments?.getString(BundleKeys.tripDate)!!
-        tripType = arguments?.getString(BundleKeys.tripType)!!
-        fetchedFriends = arguments?.getString(BundleKeys.tripFriends)!!
+        getTripId = arguments?.getString(BundleKeys.tripID)!!.toInt()
+        getHostID = arguments?.getString(BundleKeys.tripHostID)!!.toInt()
+        val getTripName = arguments?.getString(BundleKeys.tripName)!!
+        val getTripCountry = arguments?.getString(BundleKeys.tripCountry)!!
+        val getTripDate = arguments?.getString(BundleKeys.tripDate)!!
+        val getTripType = arguments?.getString(BundleKeys.tripType)!!
+        getFetchedFriends = arguments?.getString(BundleKeys.tripFriends)!!
 
         tv_addTrip_title.text = "Edit Trip"
-        et_trip_name.setText(tripName)
-        filled_exposed_dropdown.setText(tripCountry)
-        et_trip_date.setText(tripDate)
-        if(tripType == "Friends"){
+        et_trip_name.setText(getTripName)
+        filled_exposed_dropdown.setText(getTripCountry)
+        et_trip_date.setText(getTripDate)
+        if(getTripType == "Friends"){
             radioGroup.check(R.id.rb_friends)
         }else{
             radioGroup.check(R.id.rb_solo)
@@ -105,23 +106,12 @@ class AddTripFragment : Fragment() {
         btn_add_trip.visibility = View.GONE
         btn_edit_trip.visibility = View.VISIBLE
 
-        btn_edit_trip.setOnClickListener {
-            handleUpdateTripDetails(
-                    fetchedTripId,
-                    hostID,
-                    tripCountry,
-                    "KL",
-                    tripDate,
-                    tripType,
-                    fetchedFriends,
-            );
-        }
-
     }
 
     private fun setupComponent(){
 
         btn_add_trip.isEnabled = false
+        btn_edit_trip.isEnabled = false
         //=================================Country==================================
         val name = arrayOf(
                 "Malaysia",
@@ -225,12 +215,36 @@ class AddTripFragment : Fragment() {
         }
         //=================================Add Trip Button============================
 
+        //=================================Edit Trip Button============================
+        btn_edit_trip.setOnClickListener {
+
+            tripName = et_trip_name.text.toString()
+            tripDate = et_trip_date.text.toString()
+
+            val myArrString = Json.encodeToString(selectedTripFriend)
+            Log.i("DATA", myArrString)
+            Log.i("DATA CHECK", ("$tripCountry, $tripName, $tripDate, $tripType"))
+
+            handleUpdateTripDetails(
+                    getTripId,
+                    getHostID,
+                    tripCountry,
+                    tripName,
+                    tripDate,
+                    tripType,
+                    myArrString,
+            );
+        }
+        //=================================Edit Trip Button============================
+
     }
 
     private fun validateEditTextLength(){
         btn_add_trip.isEnabled =
-                et_trip_name.text!!.isNotEmpty() &&
-                        et_trip_date.text!!.isNotEmpty()
+                et_trip_name.text!!.isNotEmpty() && et_trip_date.text!!.isNotEmpty()
+
+        btn_edit_trip.isEnabled =
+                et_trip_name.text!!.isNotEmpty() && et_trip_date.text!!.isNotEmpty()
     }
 
     private fun setupAdapter(friendList: ArrayList<UserModel.User>) {
