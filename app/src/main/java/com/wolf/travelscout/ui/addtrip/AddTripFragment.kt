@@ -53,6 +53,7 @@ class AddTripFragment : Fragment() {
     private var getTripId: Int = 0
     private var getFetchedFriends: String = ""
     private var getHostID: Int = 0
+    private var decodedFriendList: ArrayList<UserModel.User> = arrayListOf()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -102,10 +103,16 @@ class AddTripFragment : Fragment() {
         }else{
             radioGroup.check(R.id.rb_solo)
         }
+        decodeFriendList(getFetchedFriends)
 
         btn_add_trip.visibility = View.GONE
         btn_edit_trip.visibility = View.VISIBLE
 
+    }
+
+    private fun decodeFriendList(tripFriends: String) {
+        decodedFriendList = Json.decodeFromString(tripFriends)
+        setupFriendAddedAdapter(decodedFriendList)
     }
 
     private fun setupComponent(){
