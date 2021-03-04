@@ -104,6 +104,12 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_history_24" />
 
+            <ImageButton
+                android:id="@+id/ib_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_outbond_24" />
+
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

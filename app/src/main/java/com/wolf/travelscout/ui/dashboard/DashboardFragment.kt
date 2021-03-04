@@ -72,6 +72,14 @@ class DashboardFragment : Fragment() {
             setupUpcomingTripAdapter(upcomingTripList)
         }
 
+        binding.ibLogout.setOnClickListener {
+            SharedPreferencesUtil.username = ""
+            SharedPreferencesUtil.userID = 0
+            SharedPreferencesUtil.accessToken = ""
+
+            navController.navigate(R.id.action_dashboardFragment_to_loginFragment)
+        }
+
     }
 
     @SuppressLint("CheckResult")
